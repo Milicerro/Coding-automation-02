@@ -4,33 +4,33 @@ import { EmployeePage } from '../pageObjects/employee.page';
 import { LogoutPage } from '../pageObjects/logout.page';
 
 test.describe('Test the new employee creation flow', () => {
-  test('Login admin', async ({ page }) => {
+  test('Complete employee creation flow', async ({ page }) => {
+    await test.step('Login admin', async () => {
       const loginPage = new LoginPage(page);
       await loginPage.navigate();
       await loginPage.login('Admin', 'admin123');
       const dashboardTitle = await loginPage.getDashboardTitle();
       expect(dashboardTitle).toContain('Dashboard');
-    //});
+    });
 
-   //test('Add new employee', async ({ page }) => {
-    const employeePage = new EmployeePage(page);
-    await employeePage.navigateToPIM();
-    await employeePage.clickAddButton();
-    await employeePage.fillFirstName('Milagros');
-    await employeePage.fillLastName('Cero');
-    await employeePage.fillEmployeeId('0389');
-    await employeePage.clickSaveButton();
-    // });
+    await test.step('Add new employee', async () => {
+      const employeePage = new EmployeePage(page);
+      await employeePage.navigateToPIM();
+      await employeePage.clickAddButton();
+      await employeePage.form('Milagros', 'Cero', '0389');
+    });
 
-    // test('Search for an employee and logout', async ({ page }) => {
-    const logoutPage = new LogoutPage(page);
-    await employeePage.employeeBtn();
-    await employeePage.EmpInformation();
-    // await employeePage.enterSearchId('0389');
-    await employeePage.searchBtn();
-    await employeePage.foundEmployee();
-    await logoutPage.logoutDropdown();
-    await logoutPage.logoutLink();
-    await expect(page).toHaveURL(/.*login/);
+    await test.step('Search for an employee and logout', async () => {
+      const employeePage = new EmployeePage(page);
+      const logoutPage = new LogoutPage(page);
+      await employeePage.employeeBtn();
+      await employeePage.EmpInformation();
+      await employeePage.enterSearchId('0389');
+      await employeePage.searchEmpBtn();
+      await employeePage.foundEmployee();
+      await logoutPage.logoutDropdown();
+      await logoutPage.logoutLink();
+      await expect(page).toHaveURL(/.*login/);
+    });
   });
 });

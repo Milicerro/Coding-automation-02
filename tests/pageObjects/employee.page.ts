@@ -1,55 +1,68 @@
-import { Page } from '@playwright/test';
+import  { expect, type Locator, type Page } from '@playwright/test';
 
 export class EmployeePage {
-    private page: Page;
+    readonly page: Page;
+    readonly pim: Locator;
+    readonly addBtn: Locator;
+    readonly firstName: Locator;
+    readonly lastName: Locator;
+    readonly employeeId: Locator;
+    readonly saveBtn: Locator;
+    readonly searchId: Locator;
+    readonly searchBtn: Locator;
+    readonly visibleEmpList:Locator;
+    readonly addEmpTitle: Locator;
 
     constructor(page: Page) {
         this.page = page;
+        this.pim = page.locator('//span[text()="PIM"]');
+        this.addBtn = page.locator('//button[@class="oxd-button oxd-button--medium oxd-button--secondary"]');
+        this.firstName = page.locator('[placeholder="First Name"]');
+        this.lastName = page.locator('[placeholder="Last Name"]');
+        this.employeeId = page.locator('(//input[@class="oxd-input oxd-input--active"])[2]');
+        this.saveBtn = page.locator('//button[@class="oxd-button oxd-button--medium oxd-button--secondary orangehrm-left-space"]');
+        this.searchId = page.locator('(//input[@class="oxd-input oxd-input--active"])[2]');
+        this.searchBtn = page.locator('//button[@Type="submit"]');
+        this.visibleEmpList = page.locator('//div //li[@class="oxd-topbar-body-nav-tab --visited"]');
+        this.addEmpTitle = page.locator('//h6[@class="oxd-text oxd-text--h6 orangehrm-main-title"]');
     }
     async navigate() {
         await this.page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/pim/addEmployee');
     }
 
     async navigateToPIM() {
-        await this.page.locator('//span[text()="PIM"]').click();
+        await this.pim.click();
     }
 
     async clickAddButton() {
-        await this.page.locator('//button[@class="oxd-button oxd-button--medium oxd-button--secondary"]').click();
+        await this.addBtn.click();
     }
 
     async shownAddEmpTitle(){
-        await this.page.locator('//h6[@class="oxd-text oxd-text--h6 orangehrm-main-title"]').isVisible();
+        await this.addEmpTitle.isVisible();
     }
 
-    async fillFirstName(firstName: string) {
-        await this.page.locator('[placeholder="First Name"]').fill(firstName);
+    async form(firstName: string, lastName: string, employeeId: string) {
+        await this.firstName.fill(firstName);
+        await this.lastName.fill(lastName);
+        await this.employeeId.fill(employeeId);
+        await this.saveBtn.click();
     }
 
-    async fillLastName(lastName: string) {
-        await this.page.locator('[placeholder="Last Name"]').fill(lastName);
-    }
-    async fillEmployeeId(employeeId: string) {
-        await this.page.locator('//input[@class="oxd-input oxd-input--active"]').nth(1).fill(employeeId);
-    }
-
-    async clickSaveButton() {
-        await this.page.locator('//button[@class="oxd-button oxd-button--medium oxd-button--secondary orangehrm-left-space"]').click();
-    }
     async employeeBtn() {
-        await this.page.locator('//div //li[@class="oxd-topbar-body-nav-tab --visited"]').click();
+        await this.visibleEmpList.click();
     }
 
     async EmpInformation() {
         await this.page.locator('//h5[@class="oxd-text oxd-text--h5 oxd-table-filter-title"]');
     }
 
-    // async enterSearchId(Id: string) {
-    //     await this.page.locator('//input[@class="oxd-input oxd-input--active"]').nth(2).fill(Id);
-    // }
+    async enterSearchId(Id: string) {
+         await this.searchId.fill(Id);
+    }
 
-    async searchBtn(){
-        await this.page.locator('//button[@Type="submit"]').click();
+    async searchEmpBtn(){
+        await this.searchBtn.click();
     }
 
     async foundEmployee(){

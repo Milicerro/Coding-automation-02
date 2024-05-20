@@ -1,10 +1,15 @@
-import { Page } from '@playwright/test';
-
+import  { expect, type Locator, type Page } from '@playwright/test';
 export class LoginPage {
-    private page: Page;
+    readonly page: Page;
+    readonly username: Locator;
+    readonly password: Locator;
+    readonly submitBtn: Locator;
 
     constructor(page: Page) {
         this.page = page;
+        this.username = page.locator('[name="username"]');
+        this.password = page.locator('[name="password"]');
+        this.submitBtn = page.locator('[type="submit"]');
     }
 
     async navigate() {
@@ -12,9 +17,9 @@ export class LoginPage {
     }
 
     async login(username: string, password: string) {
-        await this.page.fill('[name="username"]', username);
-        await this.page.fill('[name="password"]', password);
-        await this.page.click('[type="submit"]');
+        await this.username.fill(username);
+        await this.password.fill(password);
+        await this.submitBtn.click();
     }
 
     async getDashboardTitle() {

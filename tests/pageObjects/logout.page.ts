@@ -1,17 +1,20 @@
-import { Page } from '@playwright/test';
-
+import  { expect, type Locator, type Page } from '@playwright/test';
 export class LogoutPage {
-    private page: Page;
+    readonly page: Page;
+    readonly dropdownBtn: Locator;
+    readonly logoutBtn: Locator;
 
     constructor(page: Page) {
         this.page = page;
+        this.dropdownBtn = page.locator('span.oxd-userdropdown-tab');
+        this.logoutBtn = page.locator('//a [@href="/web/index.php/auth/logout"]');
     }
 
     async logoutDropdown() {
-        await this.page.locator('span.oxd-userdropdown-tab').click();
+        await this.dropdownBtn.click();
     }
 
     async logoutLink() {
-        await this.page.locator('//a [@href="/web/index.php/auth/logout"]').click();
+        await this.logoutBtn.click();
     }
 }

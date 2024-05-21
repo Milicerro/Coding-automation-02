@@ -2,6 +2,7 @@ import  { expect, type Locator, type Page } from '@playwright/test';
 
 export class EmployeePage {
     readonly page: Page;
+    readonly url: string = 'https://opensource-demo.orangehrmlive.com/web/index.php/pim/addEmployee';
     readonly pim: Locator;
     readonly addBtn: Locator;
     readonly firstName: Locator;
@@ -27,7 +28,7 @@ export class EmployeePage {
         this.addEmpTitle = page.locator('//h6[@class="oxd-text oxd-text--h6 orangehrm-main-title"]');
     }
     async navigate() {
-        await this.page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/pim/addEmployee');
+        await this.page.goto(this.url);
     }
 
     async navigateToPIM() {

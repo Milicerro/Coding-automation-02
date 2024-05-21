@@ -1,6 +1,7 @@
-import  { expect, type Locator, type Page } from '@playwright/test';
+import  { type Page, type Locator, expect} from '@playwright/test';
 export class LoginPage {
     readonly page: Page;
+    readonly url: string = 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login';
     readonly username: Locator;
     readonly password: Locator;
     readonly submitBtn: Locator;
@@ -13,7 +14,7 @@ export class LoginPage {
     }
 
     async navigate() {
-        await this.page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+        await this.page.goto(this.url);
     }
 
     async login(username: string, password: string) {

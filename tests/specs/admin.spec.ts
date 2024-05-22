@@ -13,8 +13,8 @@ test.afterAll(async () => {
   await page.close();
 });
 
-test.describe.serial('Test the new employee creation flow', () => {
-  test('Complete employee creation flow', async () => {
+test.describe('Test the new employee creation flow', () => {
+  test('Login admin', async () => {
     const loginPage = new LoginPage(page);
     await loginPage.navigate();
     await loginPage.login('Admin', 'admin123');
